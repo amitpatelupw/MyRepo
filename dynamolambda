@@ -1,0 +1,33 @@
+import json
+import boto3
+
+print('Loading function')
+
+
+
+def lambda_handler(event, context):
+    
+    client   = boto3.client('dynamodb')
+    dynamodb = boto3.resource('dynamodb')
+    #Get Table Names
+    tableList = client.list_tables()
+    
+    
+    
+    #Get Current Region Name
+    session = boto3.session.Session()
+    region = session.region_name
+    AccountID = boto3.client('sts').get_caller_identity().get('Account')
+    
+    for tableName in tableList['TableNames']:
+        verifyTable = dynamodb.Table(tableName)
+        
+        #getting tag details for table
+        response = client.list_tags_of_resource(
+        ResourceArn=verifyTable.table_arn)
+        
+        #validationg if tags exist
+        if(len(response['Tags']) == 1) :
+            tableResponse = verifyTable.delete();
+            print(tableResponse)
+    
