@@ -27,7 +27,11 @@ def lambda_handler(event, context):
         ResourceArn=verifyTable.table_arn)
         
         #validationg if tags exist
-        if(len(response['Tags']) == 1) :
-            tableResponse = verifyTable.delete();
-            print(tableResponse)
+        if(len(response['Tags']) >= 1) :
+            for tag in response['Tags'] :
+                tagName = list(tag.values())[0]
+                if(tagName == ('abcd' or 'dsd') ) :
+                    tableResponse = verifyTable.delete();
+                    print(tableResponse)
+           
     
