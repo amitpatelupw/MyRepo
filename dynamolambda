@@ -35,3 +35,4 @@ def lambda_handler(event, context):
                     print(tableResponse)
            
     
+http://www.techbeamers.com/latest-angularjs-interview-questions-answers/#q7
