@@ -1,1 +1,23 @@
-fsdfsdf
+import json
+import boto3
+
+print('Loading function')
+
+def lambda_handler(event, context):
+    
+    client   = boto3.client('cloudformation')
+    cloudformation = boto3.resource('cloudformation')
+    stackList = client.list_stacks(StackStatusFilter=['CREATE_COMPLETE'])
+    #print(stackList.values())
+    for v in stackList['StackSummaries']:
+        
+        stackName = list(v.values())[1]
+        stackContainer = cloudformation.Stack(stackName)
+        
+        if(len(stackContainer.tags) > 0) :
+            tagList = stackContainer.tags
+            for tag in tagList:
+                tagName = list(tag.values())[0]
+                if(tagName == 'abcd') :
+                    stackContainer.delete()
+                    print('deleted')
