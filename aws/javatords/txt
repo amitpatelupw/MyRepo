@@ -1,1 +1,77 @@
-dsad
+package com.amazonaws.lambda.demo;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.GetObjectRequest;
+import com.amazonaws.services.s3.model.S3Object;
+import com.amazonaws.services.lambda.runtime.Context;
+import com.amazonaws.services.lambda.runtime.RequestHandler;
+import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.PreparedStatement;
+import com.mysql.jdbc.Statement;
+
+public class LambdaFunctionHandler implements RequestHandler<Object, String> {
+
+	@Override
+	public String handleRequest(Object input, Context context) {		
+		
+		String line = "";
+		StringBuilder sba = new StringBuilder();
+		AWSCredentials credentials = new BasicAWSCredentials(
+				"acceskey",
+				"secertkey");
+
+		@SuppressWarnings("deprecation")
+		final AmazonS3 s3 = new AmazonS3Client(credentials);
+
+		String result = "";
+		try {
+			S3Object s3object = s3.getObject(new GetObjectRequest("anand-1",
+					"file.txt"));
+
+			InputStream is = s3object.getObjectContent();
+
+			BufferedReader br = new BufferedReader(new InputStreamReader(is));
+			try {
+				while ((line = br.readLine()) != null) {
+					sba.append(line);
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+		} catch (Exception ex) {
+
+		}		
+		try {
+			PreparedStatement pst = null;
+			String host = "jdbc:mysql://74.63.228.198:3306/dev_zdaly";
+			String uName = "zdalytest";
+			String uPass = "zdalytest123";
+			Connection con = (Connection) DriverManager.getConnection(host,
+					uName, uPass);
+			String stm = "INSERT INTO userprofile(UserId, UserName) VALUES(?,?)";
+			pst = (PreparedStatement) con.prepareStatement(stm);
+			pst.setInt(1, 11);
+			pst.setString(2, sba.toString());
+			pst.executeUpdate();
+			result = "Value added to database";
+
+		} catch (SQLException err) {
+			System.out.println(err.getMessage());
+		}
+
+		return result;
+	}
+
+}
