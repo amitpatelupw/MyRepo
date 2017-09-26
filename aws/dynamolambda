@@ -36,3 +36,6 @@ def lambda_handler(event, context):
            
     
 http://www.techbeamers.com/latest-angularjs-interview-questions-answers/#q7
+
+
+https://github.com/BrandonPotter/GoogleAuthenticator/blob/master/Google.Authenticator/TwoFactorAuthenticator.cs
