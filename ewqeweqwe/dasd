@@ -51,3 +51,20 @@ Keys stored in dedicated, third-party validated hardware security modules under 
 FIPS 140-2 compliance.
 Integration with applications using PKCS#11, Java JCE, or Microsoft CNG interfaces.
 High-performance in-VPC cryptographic acceleration (bulk crypto).
+
+
+
+If a VPC does not have an Internet Gateway, then the resources in the VPC cannot be accessed from the Internet (unless the traffic flows via a corporate network and VPN/Direct Connect).
+
+A subnet is deemed to be a Public Subnet if it has a Route Table that directs traffic to the Internet Gateway.
+
+NAT Gateway
+
+AWS introduced a NAT Gateway Service that can take the place of a NAT Instance. The benefits of using a NAT Gateway service are:
+
+It is a fully-managed service -- just create it and it works automatically, including fail-over
+It can burst up to 10 Gbps (a NAT Instance is limited to the bandwidth associated with the EC2 instance type)
+However:
+
+Security Groups cannot be associated with a NAT Gateway
+You'll need one in each AZ since they only operate in a single AZ
