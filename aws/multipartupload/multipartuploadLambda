@@ -20,9 +20,9 @@ public class LambdaFunctionHandler implements RequestHandler<Object, String> {
 
 	@Override
 	public String handleRequest(Object input, Context context) {
-		String sourceBucketName = "multisource";
+		String sourceBucketName = input["bucketname"];
 		String targetBucketName = "multitarget";
-		String sourceObjectKey = "abcd.txt";
+		String sourceObjectKey = input["bucketkey"];
 		String targetObjectKey = "abcd.txt";
 		AmazonS3Client s3Client = new AmazonS3Client();
 
