@@ -1,8 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace ConsoleApplication10
 {
@@ -21,36 +18,37 @@ namespace ConsoleApplication10
 
     public class myQueue : iOverrideQueue
     {
-        public List<Task> taskQueue = new List<Task>();
+        public Task[] taskQueue;
         public int tqSize;
         public int tqAddedTasks;
         public int nextPointer = 0;
 
-        public myQueue()
+        public myQueue(int size)
         {
-
+            tqSize = size;
+            taskQueue = new Task[tqSize];
+            tqAddedTasks = 0;
         }
 
         public bool isEmpty()
         {
-            return taskQueue.Count == 0;
+            return tqAddedTasks == 0;
         }
 
-        //public bool isFull()
-        //{
-        //    return tqAddedTasks == tqSize - 1;
-        //}
+        public bool isFull()
+        {
+            return tqAddedTasks == tqSize - 1;
+        }
 
         public void addTask(string taskDescription, int priority)
         {
             Task task = new Task(taskDescription, priority);
-            taskQueue.Add(task);
+            taskQueue[++tqAddedTasks] = task;
+            int count = tqAddedTasks;
 
-            int count = taskQueue.Count - 1;
-
-            while (count != 0 && task.priority > taskQueue[count - 1].priority)
+            while (count != 1 && task.priority > taskQueue[count-1].priority)
             {
-                taskQueue[count] = taskQueue[count - 1];
+                taskQueue[count] = taskQueue[count-1];
                 count--;
             }
             taskQueue[count] = task;
@@ -59,9 +57,10 @@ namespace ConsoleApplication10
         }
         public string nextTask()
         {
-            if (!isEmpty())
+            if(!isEmpty())
             {
-                return taskQueue[nextPointer++].taskDescription;
+                nextPointer++;
+                return taskQueue[nextPointer].taskDescription;
             }
             return "Queue is empty";
         }
@@ -86,7 +85,7 @@ namespace ConsoleApplication10
             iOverrideQueue oq = null;
 
             //Implement the interface above so that "myQueue" is valid.
-            oq = new myQueue();
+            oq = new myQueue(20);
 
             // Sample test data/code
             oq.addTask("first", 1);
@@ -106,7 +105,6 @@ namespace ConsoleApplication10
             oq.addTask("eighth", 2);
             oq.addTask("ninth", 2);
             oq.addTask("tenth", 3);
-
             Console.WriteLine("GetNext(): " + oq.nextTask());
             Console.WriteLine("GetNext(): " + oq.nextTask());
             Console.WriteLine("GetNext(): " + oq.nextTask());
