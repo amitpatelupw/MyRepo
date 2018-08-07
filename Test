@@ -1,135 +1,57 @@
-using System;
-
-
-namespace ConsoleApplication10
-{
-    public interface iOverrideQueue
-    {
-        //Add a task to the Queue.
-        //priority will always be provided as a non-negative integer (zero is valid)
-        //zero (0) is the lowest priority, max priority is only limited by the integer type.  
-        //This is given, it does not need to be enforced.
-        void addTask(String taskDescription, int priority);
-
-        //Return the "next" task based on the rules above and remove it from the queue.
-        //If the Queue is empty, return null.
-        String nextTask();
-    }
-
-    public class myQueue : iOverrideQueue
-    {
-        public Task[] taskQueue;
-        public int tqSize;
-        public int tqAddedTasks;
-        public int nextPointer = 0;
-
-        public myQueue(int size)
-        {
-            tqSize = size;
-            taskQueue = new Task[tqSize];
-            tqAddedTasks = 0;
-        }
-
-        public bool isEmpty()
-        {
-            return tqAddedTasks == 0;
-        }
-
-        public bool isFull()
-        {
-            return tqAddedTasks == tqSize - 1;
-        }
-
-        public void addTask(string taskDescription, int priority)
-        {
-            Task task = new Task(taskDescription, priority);
-            taskQueue[++tqAddedTasks] = task;
-            int count = tqAddedTasks;
-
-            while (count != 1 && task.priority > taskQueue[count-1].priority)
-            {
-                taskQueue[count] = taskQueue[count-1];
-                count--;
-            }
-            taskQueue[count] = task;
-            nextPointer = 0;
-
-        }
-        public string nextTask()
-        {
-            if(!isEmpty())
-            {
-                nextPointer++;
-                return taskQueue[nextPointer].taskDescription;
-            }
-            return "Queue is empty";
-        }
-    }
-
-    public class Task
-    {
-        public string taskDescription;
-        public int priority;
-
-        public Task(string TaskDescription, int Priority)
-        {
-            taskDescription = TaskDescription;
-            priority = Priority;
-        }
-
-    }
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            iOverrideQueue oq = null;
-
-            //Implement the interface above so that "myQueue" is valid.
-            oq = new myQueue(20);
-
-            // Sample test data/code
-            oq.addTask("first", 1);
-            oq.addTask("second", 1);
-            oq.addTask("third", 3);
-            oq.addTask("fourth", 1);
-            Console.WriteLine("GetNext(): " + oq.nextTask());
-            Console.WriteLine("GetNext(): " + oq.nextTask());
-            oq.addTask("fifth", 1);
-            oq.addTask("sixth", 5);
-            Console.WriteLine("GetNext(): " + oq.nextTask());
-            Console.WriteLine("GetNext(): " + oq.nextTask());
-            Console.WriteLine("GetNext(): " + oq.nextTask());
-            Console.WriteLine("GetNext(): " + oq.nextTask());
-            Console.WriteLine("GetNext(): " + oq.nextTask());
-            oq.addTask("seventh", 1);
-            oq.addTask("eighth", 2);
-            oq.addTask("ninth", 2);
-            oq.addTask("tenth", 3);
-            Console.WriteLine("GetNext(): " + oq.nextTask());
-            Console.WriteLine("GetNext(): " + oq.nextTask());
-            Console.WriteLine("GetNext(): " + oq.nextTask());
-            Console.WriteLine("GetNext(): " + oq.nextTask());
-            Console.ReadLine();
-
-            //The output for the above should be: 
-            //GetNext(): third
-            //GetNext(): first
-
-            //GetNext(): sixth
-            //GetNext(): second
-            //GetNext(): fourth
-            //GetNext(): fifth
-            //GetNext(): 
-
-            //GetNext(): tenth
-            //GetNext(): eight
-            //GetNext(): ninth
-            //GetNext(): seventh
-
-            //Note:  A different set of test data will be used for testing than is provided above. This needs to be an all purpose solution.
-        }
-    }
 
 
 
-}
+
+Please tell me more about your recent experience as a Web Developer? Please explain.
+-------------------------------------------------------------------------------------------------------------------
+I have 7+ years’ experience as Full Stack .Net Developer. 
+I have been involved in all the application development cycle phases like requirement analysis, development, testing, deployment and post production support.
+
+
+
+Please tell me more about your programming experience in C#. What you have developed and codded in C#?
+-------------------------------------------------------------------------------------------------------------------
+I have used c# as the main backend language to write business modules in my projects. I have used, reflection, enum , interface, abstract class, extension methods, LINQ .
+I have used singleton design pattern, abstract factory, factory, and facade and dispose pattern.
+In collections, I have used list, array, dictionary, hash tables.
+
+What is your experience in building high-traffic and responsive web applications?
+-------------------------------------------------------------------------------------------------------------------
+I have worked in very scalable reliable and scalable application. I have used bootstrap framework for developing responsive application supported by various devices.
+For high traffic management, i have used ELB, redis cache to leverage high load. For fast data availability, i have used no sql(dynamo db) for static contents. 
+Also added sharding mechanism in database to maintain large data.
+-------------------------------------------------------------------------------------------------------------------
+What is your experience with core concepts and implementing web-based solutions in an n-tiered environment?
+I have developed most of the applications from scratch. I have worked with 3 layered architecture as well.
+Main part of any application consists of Presentation layer, Business layer & Database layer.
+While designing the application, I followed the SOLID principles, Design patterns and test driven development.
+
+
+-------------------------------------------------------------------------------------------------------------------
+What is your development experience using ASP.Net & MVC? Please explain.
+I have 7+ years’ experience developing application using asp.net mvc framework. In current project I have developed the Insurance application with asp.net mvc, entityframewrok, sqlserver.
+As part of development, I have created controllers, views, models , custom attributes, routing, custom action filters.
+for authentication I have developed token based authentication using katana framework.
+
+Please tell me more about your experience with HTML / CSS.
+-------------------------------------------------------------------------------------------------------------------
+Being Full stack developer, i have worked in front end technologies as well like html/csss.javascript. 
+I usually get wireframes from the business and convert them in web pages using html and css.
+-------------------------------------------------------------------------------------------------------------------
+What is your experience in modifying HTML / CSS for cross-browser and device support? Please explain.
+I have used bootstrap css framework for making responsive and uniform layout for the application.
+For testing device support and browser support, I usually prefer chrome or IE developer tool.
+
+-------------------------------------------------------------------------------------------------------------------
+What is your understanding of Concepts of session handling, load balancing & web farms?
+
+Session management is core concept in application design. As we know HTTP is stateless protocol. To maintain user data between subsequent request, 
+So far i have used asp.net in-proc session, sql server outproc session, aws sticky session. In Distributed environment, we use multiple servers to maintain the application load. For efficiently use of all the servers, we use load balancer to distribute the request based on server availability. I have used Aws ELB for load balancing.
+When use multiple servers to host the application and divide the traffic among them, this is called Webform. 
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+Please tell me more about your experience with Designing, implementing and operating highly reliable and feature-rich applications.
+I have vast experience developing feature-rich and high reliable application. I have used many tools like fiddler, Jmeter, New relic 
+And application logs to identity the application performance and availability. My current application in deployed on AWS Elastic beanstalk where we have created
+Alerts on cpu usage, system health.
+In current project I have developed application with good UI with proper user flow same like windows application.
